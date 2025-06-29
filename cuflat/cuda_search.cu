@@ -93,10 +93,8 @@ gemv_optimized_384( // Renamed
     const int block_height = BLOCK_DIM_Y; 
     const int threads_per_block = blockDim.x * blockDim.y;
 
-    // Shared memory for query vector - FIXED TO 384
     __shared__ float s_query[384];
 
-    // Cooperatively load query into shared memory.
     for (int i = tid_x + tid_y * blockDim.x; i < embed_dim; i += threads_per_block) {
         s_query[i] = __ldg(&query[i]);
     }
@@ -152,10 +150,8 @@ gemv_optimized_512( // Renamed
     const int block_height = BLOCK_DIM_Y; 
     const int threads_per_block = blockDim.x * blockDim.y; 
 
-    // Shared memory for query vector - FIXED TO 512
-    __shared__ float s_query[512]; // CRITICAL CHANGE FOR 512
+    __shared__ float s_query[512]; 
 
-    // Cooperatively load query into shared memory.
     for (int i = tid_x + tid_y * blockDim.x; i < embed_dim; i += threads_per_block) {
         s_query[i] = __ldg(&query[i]);
     }
